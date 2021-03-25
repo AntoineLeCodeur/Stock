@@ -10,11 +10,14 @@ from googlesearch import search
 from telegram.ext import Updater, CommandHandler
 import requests
 import re
+import logging
+
+
 
 def UrlAction(nom_action):
     recherche=nom_action+"cours boursorama"
     a=search(recherche,1)
-    print(a)
+    #print(a)
     #print(type(a[0]))
     return(a[0])
 #"https://www.boursorama.com/cours/1rPAI/")
@@ -28,6 +31,10 @@ def Valeur(url):
 #print(help(BeautifulSoup.findAll))
     value=(span.string)
 
+    span=soup.find("div", {"class": "c-instrument c-instrument--last"})
+    name=soup.find("div", {"class": "u-text-bold"})
+    #print(soup)
+    print(name.string)
     return float(value)
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -50,7 +57,7 @@ def help(update, context):
 
 def echo(update, context):
     """Echo the user message."""
-    print(type('update.message.text'))
+    #print(type('update.message.text'))
     update.message.reply_text(Valeur(UrlAction(update.message.text)))
 
 
